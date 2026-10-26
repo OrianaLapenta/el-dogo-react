@@ -7,4 +7,16 @@ const api =  axios.create({
     }
 });
 
+//Interceptor
+api.interceptors.request.use(
+    (configuracion) => {
+        const tokenGuardado = localStorage.getItem('tokenAcceso');
+        if(tokenGuardado) {
+            configuracion.headers.Authorization = 'Bear ${tokenGuardado}';
+        }
+        return configuracion;
+    },
+    (error) => Promise.reject(error)
+);
+
 export default api;
